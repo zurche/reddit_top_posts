@@ -3,6 +3,8 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/reddit_top_posts.iml" filepath="$PROJECT_DIR$/.idea/modules/reddit_top_posts.iml" group="reddit_top_posts" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/reddit_top_posts-app.iml" filepath="$PROJECT_DIR$/.idea/modules/app/reddit_top_posts-app.iml" group="reddit_top_posts/app" />
       <module fileurl="file://$PROJECT_DIR$/topreddit.iml" filepath="$PROJECT_DIR$/topreddit.iml" />
     </modules>
   </component>
