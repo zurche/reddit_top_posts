@@ -12,7 +12,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.squareup.picasso.Picasso
 import com.zurche.topreddit.R
-import com.zurche.topreddit.home.data.remote.service.model.ChildrenData
+import com.zurche.topreddit.home.data.remote.service.ChildrenData
 import kotlinx.android.synthetic.main.post_item.view.*
 import java.util.*
 import java.util.concurrent.TimeUnit

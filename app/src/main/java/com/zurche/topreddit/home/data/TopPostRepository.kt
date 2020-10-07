@@ -1,6 +1,6 @@
 package com.zurche.topreddit.home.data
 
-import com.zurche.topreddit.home.data.remote.service.model.TopStoriesResponse
+import com.zurche.topreddit.home.data.remote.service.TopStoriesResponse
 import retrofit2.Response
 
 interface TopPostRepository {

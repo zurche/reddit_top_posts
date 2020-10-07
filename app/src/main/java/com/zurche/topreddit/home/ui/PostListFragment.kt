@@ -10,7 +10,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.zurche.topreddit.R
-import com.zurche.topreddit.home.data.remote.service.model.TopStoriesResponse
+import com.zurche.topreddit.home.data.remote.service.TopStoriesResponse
 import com.zurche.topreddit.home.data.Status
 import com.zurche.topreddit.home.data.remote.TopPostRemoteDataSource
 import kotlinx.android.synthetic.main.post_list_fragment.*
