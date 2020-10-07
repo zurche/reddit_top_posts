@@ -7,6 +7,9 @@ data class Resource<out T>(val status: Status, val data: T?, val message: String
         fun <T> error(data: T?, message: String): Resource<T> =
                 Resource(status = Status.ERROR, data = data, message = message)
 
+        fun <T> cannotLoad(message: String): Resource<T> =
+                Resource(status = Status.CANNOT_LOAD, data = null, message = message)
+
         fun <T> loading(data: T?): Resource<T> = Resource(status = Status.LOADING, data = data, message = null)
     }
 }

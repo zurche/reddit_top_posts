@@ -9,6 +9,8 @@ import com.zurche.topreddit.home.data.TopPostRepository
 import com.zurche.topreddit.home.data.remote.service.ChildrenData
 import com.zurche.topreddit.home.data.remote.service.TopStoriesResponse
 import kotlinx.coroutines.launch
+import java.net.UnknownHostException
+import java.util.concurrent.TimeoutException
 
 class PostListViewModel(private val topPostRepository: TopPostRepository) : ViewModel() {
 
@@ -24,6 +26,12 @@ class PostListViewModel(private val topPostRepository: TopPostRepository) : View
             try {
                 val topPosts = topPostRepository.getTopPosts().body() as TopStoriesResponse
                 topPostList.postValue(Resource.success(data = topPosts.data.children))
+            } catch (timeoutException: TimeoutException) {
+                topPostList.postValue(Resource.cannotLoad(message = timeoutException.message
+                        ?: "Timeout trying to get top posts!"))
+            } catch (unknownHostException: UnknownHostException) {
+                topPostList.postValue(Resource.cannotLoad(message = unknownHostException.message
+                        ?: "Unknown host trying to get top posts!"))
             } catch (exception: Exception) {
                 topPostList.postValue(Resource.error(data = null, message = exception.message
                         ?: "Error Occurred!"))

@@ -47,6 +47,7 @@ class PostListFragment : Fragment() {
                     Status.SUCCESS -> {
                         posts_list.visibility = View.VISIBLE
                         progress_bar.visibility = View.GONE
+                        cannot_load_message.visibility = View.GONE
                         resource.data?.let { topPosts ->
                             adapter.apply {
                                 updateTopPosts(topPosts)
@@ -58,10 +59,17 @@ class PostListFragment : Fragment() {
                         posts_list.visibility = View.VISIBLE
                         Toast.makeText(requireContext(), it.message, Toast.LENGTH_LONG).show()
                         progress_bar.visibility = View.GONE
+                        cannot_load_message.visibility = View.GONE
                     }
                     Status.LOADING -> {
                         posts_list.visibility = View.GONE
                         progress_bar.visibility = View.VISIBLE
+                        cannot_load_message.visibility = View.GONE
+                    }
+                    Status.CANNOT_LOAD -> {
+                        posts_list.visibility = View.GONE
+                        progress_bar.visibility = View.GONE
+                        cannot_load_message.visibility = View.VISIBLE
                     }
                 }
             }
