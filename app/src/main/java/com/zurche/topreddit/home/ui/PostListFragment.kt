@@ -49,8 +49,7 @@ class PostListFragment : Fragment() {
                         progress_bar.visibility = View.GONE
                         resource.data?.let { topPosts ->
                             adapter.apply {
-                                val updatedPosts = (topPosts.body() as TopStoriesResponse).data.children
-                                updateTopPosts(updatedPosts)
+                                updateTopPosts(topPosts)
                                 notifyDataSetChanged()
                             }
                         }
