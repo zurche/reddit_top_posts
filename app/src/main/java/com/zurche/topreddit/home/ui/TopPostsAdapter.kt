@@ -36,10 +36,11 @@ class TopPostsAdapter : RecyclerView.Adapter<TopPostsAdapter.TopPostViewHolder>(
     /**
      * Update the posts list.
      */
-    fun updateTopPosts(updatedPosts: List<ChildrenData>) {
-        topPosts.clear()
-        topPosts.addAll(updatedPosts)
-    }
+    fun updateTopPosts(updatedPosts: List<ChildrenData>) =
+            topPosts.apply {
+                clear()
+                addAll(updatedPosts)
+            }
 
     inner class TopPostViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
