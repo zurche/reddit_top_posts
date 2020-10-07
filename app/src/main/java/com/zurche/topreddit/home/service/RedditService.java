@@ -1,6 +1,6 @@
 package com.zurche.topreddit.home.service;
 
-import com.zurche.topreddit.home.service.model.GetTopStoriesResponse;
+import com.zurche.topreddit.home.service.model.TopStoriesResponse;
 
 import retrofit2.Call;
 import retrofit2.http.GET;
@@ -13,5 +13,5 @@ import retrofit2.http.Query;
 
 public interface RedditService {
     @GET("top.json")
-    Call<GetTopStoriesResponse> listTopStories(@Query("limit") String limit);
+    Call<TopStoriesResponse> listTopStories(@Query("limit") String limit);
 }

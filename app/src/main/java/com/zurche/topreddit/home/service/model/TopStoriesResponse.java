@@ -4,7 +4,7 @@ package com.zurche.topreddit.home.service.model;
  * @author alejandro.zurcher
  * @since {insert app current main version here}
  */
-public class GetTopStoriesResponse {
+public class TopStoriesResponse {
     private TopStoryData data;
 
     public TopStoryData getData() {

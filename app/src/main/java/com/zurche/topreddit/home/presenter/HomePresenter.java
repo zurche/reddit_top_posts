@@ -4,11 +4,7 @@ import android.util.Log;
 
 import com.zurche.topreddit.home.HomeContract;
 import com.zurche.topreddit.home.service.RedditService;
-import com.zurche.topreddit.home.service.model.ChildrenData;
-import com.zurche.topreddit.home.service.model.GetTopStoriesResponse;
-import com.zurche.topreddit.home.view.HomeActivity;
-
-import java.io.IOException;
+import com.zurche.topreddit.home.service.model.TopStoriesResponse;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -45,16 +41,16 @@ public class HomePresenter implements HomeContract.Presenter {
     @Override
     public void retrieveTopPosts() {
         mHomeView.setRefreshingView();
-        Call<GetTopStoriesResponse> getTopStoriesCall = mRedditService.listTopStories(STORIES_LIMIT);
-        getTopStoriesCall.enqueue(new Callback<GetTopStoriesResponse>() {
+        Call<TopStoriesResponse> getTopStoriesCall = mRedditService.listTopStories(STORIES_LIMIT);
+        getTopStoriesCall.enqueue(new Callback<TopStoriesResponse>() {
             @Override
-            public void onResponse(Call<GetTopStoriesResponse> call, Response<GetTopStoriesResponse> response) {
+            public void onResponse(Call<TopStoriesResponse> call, Response<TopStoriesResponse> response) {
                 Log.d(TAG, "Got stories " + response.body());
                 mHomeView.onPopulatePostsList(response.body().getData().getChildren());
             }
 
             @Override
-            public void onFailure(Call<GetTopStoriesResponse> call, Throwable t) {
+            public void onFailure(Call<TopStoriesResponse> call, Throwable t) {
                 Log.e(TAG, "Failed to retrieve stories", t);
                 mHomeView.onFailedToretrievePosts();
             }

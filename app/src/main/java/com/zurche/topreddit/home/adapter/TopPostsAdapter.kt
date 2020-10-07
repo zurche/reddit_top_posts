@@ -16,13 +16,16 @@ import com.zurche.topreddit.home.service.model.ChildrenData
 import kotlinx.android.synthetic.main.post_item.view.*
 import java.util.*
 import java.util.concurrent.TimeUnit
+import kotlin.collections.ArrayList
 
 /**
  * @author alejandro.zurcher
  * @since {insert app current main version here}
  */
-class TopPostsAdapter(private val topPosts: List<ChildrenData>)
-    : RecyclerView.Adapter<TopPostsAdapter.TopPostViewHolder>() {
+class TopPostsAdapter : RecyclerView.Adapter<TopPostsAdapter.TopPostViewHolder>() {
+
+    private val topPosts: MutableList<ChildrenData> = ArrayList()
+
     private var context: Context? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TopPostViewHolder {
@@ -47,6 +50,14 @@ class TopPostsAdapter(private val topPosts: List<ChildrenData>)
         holder.entryDate.text = postCreatingString
         val thumbnailImageUrl = topPosts[position].data.thumbnail
         setupThumbnail(holder, thumbnailImageUrl)
+    }
+
+    /**
+     * Update the posts list.
+     */
+    fun updateTopPosts(updatedPosts: List<ChildrenData>) {
+        topPosts.clear()
+        topPosts.addAll(updatedPosts)
     }
 
     /**
