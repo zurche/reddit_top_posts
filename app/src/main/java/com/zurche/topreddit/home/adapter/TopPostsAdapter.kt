@@ -21,31 +21,31 @@ import java.util.concurrent.TimeUnit
  * @author alejandro.zurcher
  * @since {insert app current main version here}
  */
-class TopPostsAdapter(private val mTopPosts: List<ChildrenData>)
+class TopPostsAdapter(private val topPosts: List<ChildrenData>)
     : RecyclerView.Adapter<TopPostsAdapter.TopPostViewHolder>() {
-    private var mContext: Context? = null
+    private var context: Context? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TopPostViewHolder {
         val itemView = LayoutInflater
                 .from(parent.context)
                 .inflate(R.layout.post_item, parent, false)
-        mContext = parent.context
+        context = parent.context
         return TopPostViewHolder(itemView)
     }
 
     override fun getItemCount(): Int {
-        return mTopPosts.size
+        return topPosts.size
     }
 
     override fun onBindViewHolder(holder: TopPostViewHolder, position: Int) {
-        holder.title.text = mTopPosts[position].data.title
-        val byAuthorString = mContext!!.getString(R.string.by, mTopPosts[position].data.author)
+        holder.title.text = topPosts[position].data.title
+        val byAuthorString = context!!.getString(R.string.by, topPosts[position].data.author)
         holder.author.text = byAuthorString
-        val commentsCountString = mContext!!.getString(R.string.comments, mTopPosts[position].data.num_comments)
+        val commentsCountString = context!!.getString(R.string.comments, topPosts[position].data.num_comments)
         holder.commentsAmount.text = commentsCountString
-        val postCreatingString = mContext!!.getString(R.string.created, getFormatedDate(position))
+        val postCreatingString = context!!.getString(R.string.created, getFormatedDate(position))
         holder.entryDate.text = postCreatingString
-        val thumbnailImageUrl = mTopPosts[position].data.thumbnail
+        val thumbnailImageUrl = topPosts[position].data.thumbnail
         setupThumbnail(holder, thumbnailImageUrl)
     }
 
@@ -56,7 +56,7 @@ class TopPostsAdapter(private val mTopPosts: List<ChildrenData>)
      * @return hours since its creation
      */
     private fun getFormatedDate(position: Int): Long {
-        val postDate = Date(mTopPosts[position].data.created * 1000)
+        val postDate = Date(topPosts[position].data.created * 1000)
         val elapsedTime = Date().time - postDate.time
         return TimeUnit.MILLISECONDS.toHours(elapsedTime)
     }
@@ -72,7 +72,7 @@ class TopPostsAdapter(private val mTopPosts: List<ChildrenData>)
             holder.thumbnail.setOnClickListener {
                 val i = Intent(Intent.ACTION_VIEW)
                 i.data = Uri.parse(thumbnailImageUrl)
-                mContext!!.startActivity(i)
+                context!!.startActivity(i)
             }
         } else {
             holder.thumbnail.visibility = View.GONE
