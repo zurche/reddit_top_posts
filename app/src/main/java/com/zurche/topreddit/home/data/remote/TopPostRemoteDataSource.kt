@@ -9,14 +9,19 @@ class TopPostRemoteDataSource : TopPostRepository {
 
     private val service: RedditService
 
+    companion object {
+        const val BASE_URL = "https://www.reddit.com/"
+        const val LIMIT = 50.toString()
+    }
+
     init {
         val retrofit = Retrofit.Builder()
-                .baseUrl("https://www.reddit.com/")
+                .baseUrl(BASE_URL)
                 .addConverterFactory(MoshiConverterFactory.create())
                 .build()
 
         service = retrofit.create(RedditService::class.java)
     }
 
-    override suspend fun getTopPosts() = service.listTopStoriesV2("50")
+    override suspend fun getTopPosts() = service.listTopStories(LIMIT)
 }
