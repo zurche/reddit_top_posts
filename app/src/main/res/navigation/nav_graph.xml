@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/postListFragment"
-        android:name="com.zurche.topreddit.home.v2.ui.PostListFragment"
+        android:name="com.zurche.topreddit.home.ui.PostListFragment"
         android:label="post_list_fragment"
         tools:layout="@layout/post_list_fragment" />
 </navigation>

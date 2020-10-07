@@ -1,4 +1,4 @@
-package com.zurche.topreddit.home.service.model;
+package com.zurche.topreddit.home.data.remote.service.model;
 
 /**
  * @author alejandro.zurcher

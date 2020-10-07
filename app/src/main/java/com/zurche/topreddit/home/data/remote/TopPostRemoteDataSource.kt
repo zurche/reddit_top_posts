@@ -1,7 +1,7 @@
-package com.zurche.topreddit.home.v2.data
+package com.zurche.topreddit.home.data.remote
 
-import com.zurche.topreddit.home.service.RedditService
-import com.zurche.topreddit.home.service.model.ChildrenData
+import com.zurche.topreddit.home.data.TopPostRepository
+import com.zurche.topreddit.home.data.remote.service.RedditService
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 
@@ -18,7 +18,5 @@ class TopPostRemoteDataSource : TopPostRepository {
         service = retrofit.create(RedditService::class.java)
     }
 
-    override fun getTopPosts(): MutableList<ChildrenData> {
-        return arrayListOf()
-    }
+    override suspend fun getTopPosts() = service.listTopStoriesV2("50")
 }

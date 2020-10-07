@@ -1,4 +1,4 @@
-package com.zurche.topreddit.home.adapter
+package com.zurche.topreddit.home.ui
 
 import android.content.Context
 import android.content.Intent
@@ -12,7 +12,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.squareup.picasso.Picasso
 import com.zurche.topreddit.R
-import com.zurche.topreddit.home.service.model.ChildrenData
+import com.zurche.topreddit.home.data.remote.service.model.ChildrenData
 import kotlinx.android.synthetic.main.post_item.view.*
 import java.util.*
 import java.util.concurrent.TimeUnit
