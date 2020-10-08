@@ -10,9 +10,9 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.zurche.topreddit.R
-import com.zurche.topreddit.home.data.remote.service.TopStoriesResponse
 import com.zurche.topreddit.home.data.Status
 import com.zurche.topreddit.home.data.remote.TopPostRemoteDataSource
+import com.zurche.topreddit.home.data.remote.service.ChildrenData
 import kotlinx.android.synthetic.main.post_list_fragment.*
 
 class PostListFragment : Fragment() {
@@ -41,39 +41,47 @@ class PostListFragment : Fragment() {
     }
 
     private fun setupObservers() {
-        viewModel.getTopPosts().observe(viewLifecycleOwner, Observer {
-            it?.let { resource ->
+        viewModel.getTopPosts().observe(viewLifecycleOwner, Observer { topPostsListResource ->
+            topPostsListResource?.let { resource ->
                 when (resource.status) {
-                    Status.SUCCESS -> {
-                        posts_list.visibility = View.VISIBLE
-                        progress_bar.visibility = View.GONE
-                        cannot_load_message.visibility = View.GONE
-                        resource.data?.let { topPosts ->
-                            adapter.apply {
-                                updateTopPosts(topPosts)
-                                notifyDataSetChanged()
-                            }
-                        }
-                    }
-                    Status.ERROR -> {
-                        posts_list.visibility = View.VISIBLE
-                        Toast.makeText(requireContext(), it.message, Toast.LENGTH_LONG).show()
-                        progress_bar.visibility = View.GONE
-                        cannot_load_message.visibility = View.GONE
-                    }
-                    Status.LOADING -> {
-                        posts_list.visibility = View.GONE
-                        progress_bar.visibility = View.VISIBLE
-                        cannot_load_message.visibility = View.GONE
-                    }
-                    Status.CANNOT_LOAD -> {
-                        posts_list.visibility = View.GONE
-                        progress_bar.visibility = View.GONE
-                        cannot_load_message.visibility = View.VISIBLE
-                    }
+                    Status.SUCCESS -> showTopPosts(topPostsListResource.data)
+                    Status.ERROR -> showSomethingWentWrongMessage(topPostsListResource.message)
+                    Status.LOADING -> showLoading()
+                    Status.CANNOT_LOAD -> showLoadingIssuesMessage()
                 }
             }
         })
+    }
+
+    private fun showLoadingIssuesMessage() {
+        posts_list.visibility = View.GONE
+        progress_bar.visibility = View.GONE
+        cannot_load_message.visibility = View.VISIBLE
+    }
+
+    private fun showLoading() {
+        posts_list.visibility = View.GONE
+        progress_bar.visibility = View.VISIBLE
+        cannot_load_message.visibility = View.GONE
+    }
+
+    private fun showSomethingWentWrongMessage(failureMessage: String?) {
+        posts_list.visibility = View.VISIBLE
+        progress_bar.visibility = View.GONE
+        cannot_load_message.visibility = View.GONE
+        Toast.makeText(requireContext(), failureMessage, Toast.LENGTH_LONG).show()
+    }
+
+    private fun showTopPosts(topPostsList: List<ChildrenData>?) {
+        posts_list.visibility = View.VISIBLE
+        progress_bar.visibility = View.GONE
+        cannot_load_message.visibility = View.GONE
+        topPostsList?.let {
+            adapter.apply {
+                updateTopPosts(it)
+                notifyDataSetChanged()
+            }
+        }
     }
 
 }
