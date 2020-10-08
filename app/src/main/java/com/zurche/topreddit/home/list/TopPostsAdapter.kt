@@ -1,4 +1,4 @@
-package com.zurche.topreddit.home.ui
+package com.zurche.topreddit.home.list
 
 import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
