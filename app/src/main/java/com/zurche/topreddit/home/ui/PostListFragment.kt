@@ -4,15 +4,17 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import androidx.paging.LoadState
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.zurche.topreddit.databinding.PostListFragmentBinding
 import com.zurche.topreddit.home.data.remote.TopPostRemoteDataSource
 import com.zurche.topreddit.home.list.TopPostLoadStateAdapter
 import com.zurche.topreddit.home.list.TopPostsAdapter
-import kotlinx.android.synthetic.main.post_list_fragment.*
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -38,11 +40,32 @@ class PostListFragment : Fragment() {
 
         adapter = TopPostsAdapter()
 
-        posts_list.layoutManager = LinearLayoutManager(requireContext())
-        posts_list.adapter = adapter.withLoadStateHeaderAndFooter(
+        binding.tryAgainButton.setOnClickListener { adapter.retry() }
+
+        binding.postsList.layoutManager = LinearLayoutManager(requireContext())
+        binding.postsList.adapter = adapter.withLoadStateHeaderAndFooter(
                 header = TopPostLoadStateAdapter { adapter.retry() },
                 footer = TopPostLoadStateAdapter { adapter.retry() }
         )
+
+        adapter.addLoadStateListener { loadState ->
+            binding.postsList.isVisible = loadState.source.refresh is LoadState.NotLoading
+            binding.progressBar.isVisible = loadState.source.refresh is LoadState.Loading
+            binding.swwTv.isVisible = loadState.source.refresh is LoadState.Error
+            binding.tryAgainButton.isVisible = loadState.source.refresh is LoadState.Error
+
+            val errorState = loadState.source.append as? LoadState.Error
+                    ?: loadState.source.prepend as? LoadState.Error
+                    ?: loadState.append as? LoadState.Error
+                    ?: loadState.prepend as? LoadState.Error
+            errorState?.let {
+                Toast.makeText(
+                        requireContext(),
+                        "\uD83D\uDE28 Wooops ${it.error}",
+                        Toast.LENGTH_LONG
+                ).show()
+            }
+        }
 
         loadTopPostsJob?.cancel()
         loadTopPostsJob = lifecycleScope.launch {
