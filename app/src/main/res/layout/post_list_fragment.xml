@@ -13,9 +13,11 @@
     <ProgressBar
         android:id="@+id/progress_bar"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:visibility="gone"/>
 
     <TextView
+        android:visibility="gone"
         android:id="@+id/cannot_load_message"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

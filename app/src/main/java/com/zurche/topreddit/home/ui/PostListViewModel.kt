@@ -4,10 +4,13 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.paging.PagingData
+import androidx.paging.cachedIn
 import com.zurche.topreddit.home.data.Resource
 import com.zurche.topreddit.home.data.TopPostRepository
 import com.zurche.topreddit.home.data.remote.service.ChildrenData
 import com.zurche.topreddit.home.data.remote.service.TopStoriesResponse
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 import java.net.UnknownHostException
 import java.util.concurrent.TimeoutException
@@ -16,9 +19,7 @@ class PostListViewModel(private val topPostRepository: TopPostRepository) : View
 
     private val topPostList = MutableLiveData<Resource<List<ChildrenData>>>()
 
-    init {
-        fetchTopPosts()
-    }
+    fun getPagedResults() = topPostRepository.getPagedTopPosts().cachedIn(viewModelScope)
 
     private fun fetchTopPosts() {
         viewModelScope.launch {

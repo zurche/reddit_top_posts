@@ -11,6 +11,10 @@ import retrofit2.http.Query
 interface RedditService {
 
     @GET("top.json")
-    suspend fun listTopStories(@Query("limit") limit: String): Response<TopStoriesResponse>
+    suspend fun listTopStories(@Query("limit") limit: Int): Response<TopStoriesResponse>
 
+    @GET("top.json")
+    suspend fun listTopStoriesAfter(@Query("limit") pageSize: Int,
+                                    @Query("after") currentPage: String?)
+            : Response<TopStoriesResponse>
 }

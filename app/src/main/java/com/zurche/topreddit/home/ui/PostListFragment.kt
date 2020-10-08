@@ -8,18 +8,22 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.zurche.topreddit.R
 import com.zurche.topreddit.home.data.Status
 import com.zurche.topreddit.home.data.remote.TopPostRemoteDataSource
 import com.zurche.topreddit.home.data.remote.service.ChildrenData
 import kotlinx.android.synthetic.main.post_list_fragment.*
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 
 class PostListFragment : Fragment() {
 
     private lateinit var viewModel: PostListViewModel
-
     private lateinit var adapter: TopPostsAdapter
+    private var loadTopPostsJob: Job? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -37,7 +41,14 @@ class PostListFragment : Fragment() {
         posts_list.layoutManager = LinearLayoutManager(requireContext())
         posts_list.adapter = adapter
 
-        setupObservers()
+        //setupObservers()
+
+        loadTopPostsJob?.cancel()
+        loadTopPostsJob = lifecycleScope.launch {
+            viewModel.getPagedResults().collectLatest {
+                adapter.submitData(it)
+            }
+        }
     }
 
     private fun setupObservers() {
@@ -78,7 +89,7 @@ class PostListFragment : Fragment() {
         cannot_load_message.visibility = View.GONE
         topPostsList?.let {
             adapter.apply {
-                updateTopPosts(it)
+                //updateTopPosts(it)
                 notifyDataSetChanged()
             }
         }
