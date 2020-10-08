@@ -1,34 +1,35 @@
 package com.zurche.topreddit.home.list
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import android.webkit.URLUtil
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import com.squareup.picasso.Picasso
 import com.zurche.topreddit.R
+import com.zurche.topreddit.databinding.PostItemBinding
 import com.zurche.topreddit.home.data.remote.service.NewsData
-import kotlinx.android.synthetic.main.post_item.view.*
 import java.util.*
 import java.util.concurrent.TimeUnit
 
-class TopPostViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-    fun bind(newsData: NewsData) {
-        itemView.apply {
-            title.text = newsData.title
-            author.text = context.getString(R.string.by, newsData.author)
-            comments_amount.text = context.getString(R.string.comments, newsData.num_comments)
-            entry_date.text = context.getString(R.string.created, getFormatedDate(newsData))
+class TopPostViewHolder(private val binding: PostItemBinding)
+    : RecyclerView.ViewHolder(binding.root) {
 
-            if (URLUtil.isValidUrl(newsData.thumbnail)) {
-                thumbnail.visibility = View.VISIBLE
+    fun bind(newsData: NewsData) {
+        binding.apply {
+            title.text = newsData.title
+            author.text = binding.root.resources.getString(R.string.by, newsData.author)
+            commentsAmount.text = binding.root.resources.getString(R.string.comments, newsData.num_comments)
+            entryDate.text = binding.root.resources.getString(R.string.created, getFormatedDate(newsData))
+
+            val imageUrlIsValid = URLUtil.isValidUrl(newsData.thumbnail)
+            thumbnail.isVisible = imageUrlIsValid
+            if (imageUrlIsValid) {
                 Picasso.get()
                         .load(newsData.thumbnail)
                         .resize(100, 100)
                         .centerCrop()
                         .into(thumbnail)
-            } else {
-                thumbnail.visibility = View.GONE
             }
         }
     }
@@ -50,7 +51,8 @@ class TopPostViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
             val itemView = LayoutInflater
                     .from(parent.context)
                     .inflate(R.layout.post_item, parent, false)
-            return TopPostViewHolder(itemView)
+            val binding = PostItemBinding.bind(itemView)
+            return TopPostViewHolder(binding)
         }
     }
 }
