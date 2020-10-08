@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.paging.LoadState
@@ -67,11 +68,13 @@ class PostListFragment : Fragment() {
             }
         }
 
-        loadTopPostsJob?.cancel()
-        loadTopPostsJob = lifecycleScope.launch {
-            viewModel.getPagedResults().collectLatest {
-                adapter.submitData(it)
+        viewModel.pagedTopPosts.observe(viewLifecycleOwner, Observer { topPosts ->
+            loadTopPostsJob?.cancel()
+            loadTopPostsJob = lifecycleScope.launch {
+                topPosts.collectLatest {
+                    adapter.submitData(it)
+                }
             }
-        }
+        })
     }
 }
