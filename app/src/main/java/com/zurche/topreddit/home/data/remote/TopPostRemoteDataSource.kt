@@ -37,8 +37,6 @@ class TopPostRemoteDataSource : TopPostRepository {
         service = retrofit.create(RedditService::class.java)
     }
 
-    override suspend fun getTopPosts() = service.listTopStories(LIMIT)
-
     override fun getPagedTopPosts(): Flow<PagingData<ChildrenData>> {
         return Pager(
                 config = PagingConfig(pageSize = LIMIT, enablePlaceholders = false),
