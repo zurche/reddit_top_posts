@@ -3,4 +3,8 @@
     <string name="by">by: %1$s</string>
     <string name="comments">comments: %1$d</string>
     <string name="created">created %1$d hours ago</string>
+    <string name="cannot_load_message_string">Cannot load data.\nCheck connectivity and try again</string>
+    <string name="retry">retry</string>
+    <string name="sww_string">Something Went Wrong.\nTry Again.</string>
+    <string name="try_again">Try Again</string>
 </resources>
